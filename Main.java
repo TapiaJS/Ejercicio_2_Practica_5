@@ -177,6 +177,7 @@ public class Main {
         }
 
         Ciudad.encontrarMaxMin(ciudades);
+        String error = Colors.HIGH_INTENSITY + "Ingresa una opción válida";
         boolean datoErroneo = false;
         int coordenadaXMIN = 0;
         int coordenadaXMAX = 0;
@@ -185,69 +186,89 @@ public class Main {
         int valorAuxiliarX = 0;
         int valorAuxiliarY = 0;
 
-        for(int i = 0; i<4; i++){
+        for (int i = 0; i < 4; i++) {
             switch (i) {
                 case 0:
-                    do{
-                        Ciudad.setMaxX(Ciudad.getMaxX()-1);
+                Ciudad.setMaxX(Ciudad.getMaxX() - 1);
+                    do {
                         Colors.println("¿Cuál es la primera coordenada X?" + Ciudad.mostrarMinMaxX(), Colors.HIGH_INTENSITY);
-                        coordenadaXMIN = m.nextInt();
-
-                        if(!Ciudad.validarCordenada(coordenadaXMIN, 0)){
-                            Colors.println(Colors.HIGH_INTENSITY +"Ingresa una opción válida", Colors.RED);
+                        try {
+                            coordenadaXMIN = m.nextInt();
+                            if (!Ciudad.validarCordenada(coordenadaXMIN, 0)) {
+                                Colors.println(error, Colors.RED);
+                                datoErroneo = true;
+                            } else {
+                                datoErroneo = false;
+                                valorAuxiliarX = Ciudad.getMinX();
+                                Ciudad.setMinX(coordenadaXMIN);
+                            }
+                        } catch (InputMismatchException e) {
+                            Colors.println(error, Colors.RED);
+                            m.nextLine(); // Limpiar el buffer
                             datoErroneo = true;
-                        } else{
-                            datoErroneo = false;
-                            valorAuxiliarX = Ciudad.getMinX();
-                            Ciudad.setMinX(coordenadaXMIN);
                         }
                     } while (datoErroneo);
                     break;
                 case 1:
-                    do{
-                        Ciudad.setMaxX(Ciudad.getMaxX()+1);
+                Ciudad.setMaxX(Ciudad.getMaxX() + 1);
+                    do {
                         Colors.println("¿Cuál es la segunda coordenada X?" + Ciudad.mostrarMinMaxX(), Colors.HIGH_INTENSITY);
-                        coordenadaXMAX = m.nextInt();
-
-                        if(!Ciudad.validarCordenada(coordenadaXMAX, 0)){
-                            Colors.println(Colors.HIGH_INTENSITY +"Ingresa una opción válida", Colors.RED);
+                        try {
+                            coordenadaXMAX = m.nextInt();
+                            if (!Ciudad.validarCordenada(coordenadaXMAX, 0)) {
+                                Colors.println(error, Colors.RED);
+                                datoErroneo = true;
+                            } else {
+                                datoErroneo = false;
+                                Ciudad.setMinX(valorAuxiliarX);
+                            }
+                        } catch (InputMismatchException e) {
+                            Colors.println(error, Colors.RED);
+                            m.nextLine(); // Limpiar el buffer
                             datoErroneo = true;
-                        } else{
-                            datoErroneo = false;
-                            Ciudad.setMinX(valorAuxiliarX);
                         }
-                    } while(datoErroneo);
+                    } while (datoErroneo);
                     break;
                 case 2:
-                    do{
-                        Ciudad.setMaxY(Ciudad.getMaxY()-1);
+                Ciudad.setMaxY(Ciudad.getMaxY() - 1);
+                    do {
                         Colors.println("¿Cuál es la primera coordenada Y?" + Ciudad.mostrarMinMaxY(), Colors.HIGH_INTENSITY);
-                        coordenadaYMIN = m.nextInt();
-    
-                        if(!Ciudad.validarCordenada(coordenadaYMIN, 1)){
-                            Colors.println(Colors.HIGH_INTENSITY +"Ingresa una opción válida", Colors.RED);
+                        try {
+                            coordenadaYMIN = m.nextInt();
+                            if (!Ciudad.validarCordenada(coordenadaYMIN, 1)) {
+                                Colors.println(error, Colors.RED);
+                                datoErroneo = true;
+                            } else {
+                                datoErroneo = false;
+                                valorAuxiliarY = Ciudad.getMinY();
+                                Ciudad.setMinY(coordenadaYMIN);
+                            }
+                        } catch (InputMismatchException e) {
+                            Colors.println(error, Colors.RED);
+                            m.nextLine(); // Limpiar el buffer
                             datoErroneo = true;
-                        } else{
-                            datoErroneo = false;
-                            valorAuxiliarY = Ciudad.getMinY();
-                            Ciudad.setMinY(coordenadaYMIN);
                         }
-                    } while(datoErroneo);
+                    } while (datoErroneo);
                     break;
                 case 3:
-                    do{
-                        Ciudad.setMaxY(Ciudad.getMaxY()+1);
+                Ciudad.setMaxY(Ciudad.getMaxY() + 1);
+                    do {
                         Colors.println("¿Cuál es la segunda coordenada Y?" + Ciudad.mostrarMinMaxY(), Colors.HIGH_INTENSITY);
-                        coordenadaYMAX = m.nextInt();
-
-                        if(!Ciudad.validarCordenada(coordenadaYMAX, 1)){
-                            Colors.println(Colors.HIGH_INTENSITY +"Ingresa una opción válida", Colors.RED);
+                        try {
+                            coordenadaYMAX = m.nextInt();
+                            if (!Ciudad.validarCordenada(coordenadaYMAX, 1)) {
+                                Colors.println(error, Colors.RED);
+                                datoErroneo = true;
+                            } else {
+                                datoErroneo = false;
+                                Ciudad.setMinY(valorAuxiliarY);
+                            }
+                        } catch (InputMismatchException e) {
+                            Colors.println(error, Colors.RED);
+                            m.nextLine(); // Limpiar el buffer
                             datoErroneo = true;
-                        } else{
-                            datoErroneo = false;
-                            Ciudad.setMinY(valorAuxiliarY);
                         }
-                    } while(datoErroneo);
+                    } while (datoErroneo);
                     break;
             }
         }
