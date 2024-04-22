@@ -137,7 +137,7 @@ public class Colors {
      * @param format Formato a aplicar a dicha cadena.
      */
     public static final void println(Object s, String format) {
-        System.out.println(format + s + RESTORE);
+        System.out.println(format + s + "." + RESTORE);
     }
 
     /**
