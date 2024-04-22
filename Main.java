@@ -74,13 +74,25 @@ class Ciudad {
         return valido;
     }
 
-/*
-*  public static String encontrarCoincidencias(){
-        if (){
 
+    public static void encontrarCoincidencias(List<Ciudad> ciudades, int coordenadaXMIN, int coordenadaXMAX, int coordenadaYMIN, int coordenadaYMAX){
+        int i = 1;
+        for (Ciudad ciudad : ciudades) {
+            boolean coincidenciaX = validarLocalizacion(ciudad.x, coordenadaXMIN, coordenadaXMAX);
+            boolean coincidenciaY = validarLocalizacion(ciudad.y, coordenadaYMIN, coordenadaYMAX);
+            if(coincidenciaX && coincidenciaY){
+                Colors.println(Colors.HIGH_INTENSITY + i + ". " + ciudad, Colors.CYAN);
+                i++;
+            }
         }
     }
-*/
+
+    public static boolean validarLocalizacion(int coordenada, int coordenadaMin, int coordenadaMax){
+        if(coordenada >= coordenadaMin && coordenada <= coordenadaMax){
+            return true;
+        } 
+        return false;
+    } 
 
     public static String mostrarMinMaxX(){
         return "[" + Ciudad.minX + ", " + Ciudad.maxX + "]";
@@ -92,7 +104,7 @@ class Ciudad {
 
     @Override
     public String toString() {
-        return "Nombre: " + nombre + ", Estado: " + estado + ", Coordenadas: (" + x + ", " + y + ")";
+        return nombre + " " + estado + " " + x + " " + y;
     }
 }
 
@@ -113,10 +125,10 @@ public class Main {
                 String[] parts = line.split(" ");
                 if (parts.length == 4) {
                     ciudades.add(new Ciudad(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
-                    Colors.println(ciudades.size() + ". " + line, Colors.CYAN);
+                    Colors.println(Colors.HIGH_INTENSITY + ciudades.size() + ". " + line, Colors.CYAN);
                     
                 } else {
-                    System.out.println("Formato de línea incorrecto: " + line);
+                    Colors.println(Colors.HIGH_INTENSITY + "Formato de línea incorrecto: " + line, Colors.RED);
                 }
             }
 
@@ -128,7 +140,10 @@ public class Main {
 
         Ciudad.encontrarMaxMin(ciudades);
         boolean datoErroneo = false;
-        int coordenadaXMIN, coordenadaXMAX, coordenadaYMIN, coordenadaYMAX;
+        int coordenadaXMIN = 0;
+        int coordenadaXMAX = 0;
+        int coordenadaYMIN = 0;
+        int coordenadaYMAX = 0;
         int valorAuxiliarX = 0;
         int valorAuxiliarY = 0;
 
@@ -140,7 +155,7 @@ public class Main {
                         coordenadaXMIN = m.nextInt();
 
                         if(!Ciudad.validarCordenada(coordenadaXMIN, 0)){
-                            Colors.println("Ingresa una opción válida", Colors.RED);
+                            Colors.println(Colors.HIGH_INTENSITY +"Ingresa una opción válida", Colors.RED);
                             datoErroneo = true;
                         } else{
                             datoErroneo = false;
@@ -155,7 +170,7 @@ public class Main {
                         coordenadaXMAX = m.nextInt();
 
                         if(!Ciudad.validarCordenada(coordenadaXMAX, 0)){
-                            Colors.println("Ingresa una opción válida", Colors.RED);
+                            Colors.println(Colors.HIGH_INTENSITY +"Ingresa una opción válida", Colors.RED);
                             datoErroneo = true;
                         } else{
                             datoErroneo = false;
@@ -169,7 +184,7 @@ public class Main {
                         coordenadaYMIN = m.nextInt();
     
                         if(!Ciudad.validarCordenada(coordenadaYMIN, 1)){
-                            Colors.println("Ingresa una opción válida", Colors.RED);
+                            Colors.println(Colors.HIGH_INTENSITY +"Ingresa una opción válida", Colors.RED);
                             datoErroneo = true;
                         } else{
                             datoErroneo = false;
@@ -184,7 +199,7 @@ public class Main {
                         coordenadaYMAX = m.nextInt();
 
                         if(!Ciudad.validarCordenada(coordenadaYMAX, 1)){
-                            Colors.println("Ingresa una opción válida", Colors.RED);
+                            Colors.println(Colors.HIGH_INTENSITY +"Ingresa una opción válida", Colors.RED);
                             datoErroneo = true;
                         } else{
                             datoErroneo = false;
@@ -194,7 +209,6 @@ public class Main {
                     break;
             }
         }
-
-
+        Ciudad.encontrarCoincidencias(ciudades, coordenadaXMIN, coordenadaXMAX, coordenadaYMIN, coordenadaYMAX);
     }
 }
