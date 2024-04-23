@@ -153,18 +153,32 @@ public class Main {
         List<Ciudad> ciudades = new ArrayList<>();
         String fileName ="ciudades.txt";
 
+        /*
+        * try-with-resources garantiza que cada recurso se cierre al final de la declaración
+        */
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) { 
 
+            /*
+             * lee todas las líneas del archivo y luego cuenta el número total de líneas en el archivo
+             */
             long contador = Files.lines(Paths.get(fileName)).count();
             System.out.println("READ " + fileName + ": " + contador);
             
+            /*
+             * se inicializa una cadena line con las líneas leídas del archivo
+             */
             String line;
             while ((line = reader.readLine()) != null) {
+                /*
+                 * mientras haya una línea disponible en el archivo. Se divide la línea leída en partes utilizando el espacio como delimitador
+                 */
                 String[] parts = line.split(" ");
+                /*
+                 * si la línea tiene exactamente 4 partes. Se asume que la línea contiene información válida para crear un objeto tipo Ciudad 
+                 */
                 if (parts.length == 4) {
                     ciudades.add(new Ciudad(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
                     Colors.println(Colors.HIGH_INTENSITY + ciudades.size() + ". " + line, Colors.CYAN);
-                    
                 } else {
                     Colors.println(Colors.HIGH_INTENSITY + "Formato de línea incorrecto: " + line, Colors.RED);
                 }
