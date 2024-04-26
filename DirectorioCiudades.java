@@ -17,16 +17,14 @@ public class DirectorioCiudades {
     }
 
     public void eliminarCiudad(int numeroCiudad) {
-        String ciudadAEliminar = null;
-        for (Map.Entry<String, List<String>> entry : estadoCiudades.entrySet()) {
-            List<String> ciudades = entry.getValue();
-            if (numeroCiudad >= 1 && numeroCiudad <= ciudades.size()) {
-                ciudadAEliminar = ciudades.get(numeroCiudad - 1);
-                break;
-            }
+        List<String> todasLasCiudades = new ArrayList<>();
+        for (List<String> ciudades : estadoCiudades.values()) {
+            todasLasCiudades.addAll(ciudades);
         }
-
-        if (ciudadAEliminar != null) {
+    
+        if (numeroCiudad >= 1 && numeroCiudad <= todasLasCiudades.size()) {
+            String ciudadAEliminar = todasLasCiudades.get(numeroCiudad - 1);
+    
             for (List<String> ciudades : estadoCiudades.values()) {
                 if (ciudades.contains(ciudadAEliminar)) {
                     ciudades.remove(ciudadAEliminar);
@@ -35,11 +33,11 @@ public class DirectorioCiudades {
                 }
             }
             System.out.println("La ciudad " + ciudadAEliminar + " ha sido eliminada.");
-
         } else {
             System.out.println("Número de ciudad inválido.");
         }
     }
+    
 
     public List<String> ciudadesEnEstado(String estado) {
         return estadoCiudades.getOrDefault(estado, new ArrayList<>());
@@ -62,7 +60,7 @@ public class DirectorioCiudades {
     }
 
     public void imprimirCiudadesNumeradas() {
-            int numero = 1;
+            int numero = 0;
             for (Map.Entry<String, List<String>> entry : estadoCiudades.entrySet()) {
                 String estado = entry.getKey();
                 List<String> ciudades = entry.getValue();
