@@ -62,7 +62,6 @@ public class DirectorioCiudades {
     public void imprimirCiudadesNumeradas() {
             int numero = 0;
             for (Map.Entry<String, List<String>> entry : estadoCiudades.entrySet()) {
-                String estado = entry.getKey();
                 List<String> ciudades = entry.getValue();
                 for (String ciudad : ciudades) {
                     System.out.println(numero + ". " + ciudad);
@@ -73,7 +72,6 @@ public class DirectorioCiudades {
 
     public void imprimirTodasLasCiudades() {
         for (Map.Entry<String, List<String>> entry : estadoCiudades.entrySet()) {
-            String estado = entry.getKey();
             List<String> ciudades = entry.getValue();
             for (String ciudad : ciudades) {
                 System.out.println(ciudad);
