@@ -3,7 +3,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,7 +12,7 @@ public class BuscarCiudades {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
 
             long contador = Files.lines(Paths.get(fileName)).count();
-            System.out.println("READ " + fileName + ": " + contador);
+            System.out.println("\nREAD " + fileName + ": " + contador);
 
             String line;
             while ((line = reader.readLine()) != null) {
@@ -41,13 +40,13 @@ public class BuscarCiudades {
                     return val;
                 }
             } else {
-                m.nextLine();
+                m.next();
                 Colors.println(error, Colors.RED + Colors.HIGH_INTENSITY);
             }
         }
     }
 
-    public static void obtenerCoordenadas(List<Ciudad> ciudades, Scanner m) {
+    public static void obtenerCoordenadas(List<Ciudad> ciudades) {
         String error = Colors.HIGH_INTENSITY + "Ingresa una opción válida";
         String mensaje = "";
         int coordenadaXMIN = 0;

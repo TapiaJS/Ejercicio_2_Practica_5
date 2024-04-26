@@ -1,11 +1,9 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner m = new Scanner(System.in);
         List<Ciudad> ciudades = new ArrayList<>();
         String fileName = "ciudades.txt";
         
@@ -16,6 +14,6 @@ public class Main {
         }
         
         Ciudad.encontrarMaxMin(ciudades);
-        BuscarCiudades.obtenerCoordenadas(ciudades, m);
+        BuscarCiudades.obtenerCoordenadas(ciudades);
     }
 }
