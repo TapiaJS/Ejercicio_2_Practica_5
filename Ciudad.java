@@ -81,26 +81,6 @@ public class Ciudad {
         }
     }
 
-    public static boolean validarCordenada(int cordenada, int eje){//método redundante
-        return (eje == 0 && validarCordenadaX(minX, maxX, cordenada)) || (eje == 1 && validarCordenadaY(minY, maxY, cordenada));
-    }
-
-    public static boolean validarCordenadaX(int minX, int maxX, int cordenada){
-        boolean valido = true;
-        if(cordenada < minX || cordenada > maxX) {
-            valido = false;
-        }
-        return valido;
-    }
-    
-    public static boolean validarCordenadaY(int minY, int maxY, int cordenada){
-        boolean valido = true;
-        if(cordenada < minY || cordenada > maxY) {
-            valido = false;
-        }
-        return valido;
-    }
-
     /*
      * Verifica que ciudades pertenecen de acuerdo al rango y dominio proporcionado 
      */
