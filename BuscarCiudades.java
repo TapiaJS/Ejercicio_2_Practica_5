@@ -94,6 +94,13 @@ public class BuscarCiudades {
                     break;
             }
         }
-        Ciudad.encontrarCoincidencias(ciudades, coordenadaXMIN, coordenadaXMAX, coordenadaYMIN, coordenadaYMAX);
+        List<Ciudad> resultado = Ciudad.encontrarCoincidencias(ciudades, coordenadaXMIN, coordenadaXMAX, coordenadaYMIN, coordenadaYMAX);
+        if (resultado.isEmpty()) {
+            Colors.println(Colors.HIGH_INTENSITY + "Sin ciudades.", Colors.RED);
+        } else {
+            for (int i = 0; i < resultado.size(); i++) {
+                Colors.println(Colors.HIGH_INTENSITY + i + ". " + resultado.get(i), Colors.CYAN);
+            }
+        }
     }
 }

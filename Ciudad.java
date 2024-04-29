@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 
 public class Ciudad {
     /*
@@ -84,24 +85,20 @@ public class Ciudad {
     /*
      * Verifica que ciudades pertenecen de acuerdo al rango y dominio proporcionado 
      */
-    public static void encontrarCoincidencias(List<Ciudad> ciudades, int coordenadaXMIN, int coordenadaXMAX, int coordenadaYMIN, int coordenadaYMAX){
-        int i = 1;//Es mejor que regrese un arraylist de tipo ciudad y luego se imprima
+    public static List<Ciudad> encontrarCoincidencias(List<Ciudad> ciudades, int coordenadaXMIN, int coordenadaXMAX, int coordenadaYMIN, int coordenadaYMAX) {
+        List<Ciudad> ciudadesValidas = new ArrayList<>();
         for (Ciudad ciudad : ciudades) {
             boolean coincidenciaX = validarLocalizacion(ciudad.x, coordenadaXMIN, coordenadaXMAX);
             boolean coincidenciaY = validarLocalizacion(ciudad.y, coordenadaYMIN, coordenadaYMAX);
-            if(coincidenciaX && coincidenciaY){
-                Colors.println(Colors.HIGH_INTENSITY + i + ". " + ciudad, Colors.CYAN);
-                i++;
-            } 
+            if (coincidenciaX && coincidenciaY) {
+                ciudadesValidas.add(ciudad);
+            }
         }
-        if(i == 1) Colors.println(Colors.HIGH_INTENSITY + "Sin ciudades.", Colors.RED);
+        return ciudadesValidas;
     }
 
     public static boolean validarLocalizacion(int coordenada, int coordenadaMin, int coordenadaMax){
-        if(coordenada >= coordenadaMin && coordenada <= coordenadaMax){
-            return true;
-        } 
-        return false;
+        return coordenada >= coordenadaMin && coordenada <= coordenadaMax;
     } 
 
     public static String mostrarMinMaxX(){
