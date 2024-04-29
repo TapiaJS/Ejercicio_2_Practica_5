@@ -8,25 +8,7 @@ import java.util.Scanner;
 
 public class BuscarCiudades {
 
-    public static void leerArchivo(List<Ciudad> ciudades, String fileName) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-
-            long contador = Files.lines(Paths.get(fileName)).count();
-            System.out.println("\nREAD " + fileName + ": " + contador);
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(" ");
-                if (parts.length == 4) {
-                    ciudades.add(new Ciudad(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
-                    Colors.println(Colors.HIGH_INTENSITY + ciudades.size() + ". " + line, Colors.CYAN);
-                } else {
-                    Colors.println(Colors.HIGH_INTENSITY + "Formato de línea incorrecto: " + line, Colors.RED);
-                }
-            }
-        }
-    }
-
+    //Métodos auxiliares
     public static int getInt(String mensaje, String error, int min, int max) {
         int val;
         Scanner m = new Scanner(System.in);
@@ -46,9 +28,36 @@ public class BuscarCiudades {
         }
     }
 
+    public static void imprimirCantidadDeCiudades(String fileName){
+        try {
+            long contador = Files.lines(Paths.get(fileName)).count();
+            System.out.println("READ " + fileName + ": " + contador);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void leerArchivo(List<Ciudad> ciudades, String fileName) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            imprimirCantidadDeCiudades(fileName);
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(" ");
+                if (parts.length == 4) {
+                    ciudades.add(new Ciudad(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
+                    Colors.println(Colors.HIGH_INTENSITY + ciudades.size() + ". " + line, Colors.CYAN);
+                } else {
+                    Colors.println(Colors.HIGH_INTENSITY + "Formato de línea incorrecto: " + line, Colors.RED);
+                }
+            }
+        }
+    }
+
+    //Métodos para la opción 4 del menú
     public static void obtenerCoordenadas(List<Ciudad> ciudades) {
-        String error = Colors.HIGH_INTENSITY + "Ingresa una opción válida";
-        String mensaje = "";
+        String error = Colors.HIGH_INTENSITY + "Ingresa una opción válida.";
+        String mensaje;
         int coordenadaXMIN = 0;
         int coordenadaXMAX = 0;
         int coordenadaYMIN = 0;
@@ -60,7 +69,7 @@ public class BuscarCiudades {
             switch (i) {
                 case 0:
                     Ciudad.setMaxX(Ciudad.getMaxX() - 1);
-                    mensaje = "¿Cuál es la primera coordenada X?" + Ciudad.mostrarMinMaxX();
+                    mensaje = "¿Cuál es la primera coordenada X?" + Ciudad.mostrarMinMaxX() + ".";
 
                     coordenadaXMIN = getInt(mensaje, error, Ciudad.getMinX(), Ciudad.getMaxX());
 
@@ -69,7 +78,7 @@ public class BuscarCiudades {
                     break;
                 case 1:
                     Ciudad.setMaxX(Ciudad.getMaxX() + 1);
-                    mensaje = "¿Cuál es la segunda coordenada X?" + Ciudad.mostrarMinMaxX();
+                    mensaje = "¿Cuál es la segunda coordenada X?" + Ciudad.mostrarMinMaxX() + ".";
 
                     coordenadaXMAX = getInt(mensaje, error, Ciudad.getMinX(), Ciudad.getMaxX());
 
@@ -77,7 +86,7 @@ public class BuscarCiudades {
                     break;
                 case 2:
                     Ciudad.setMaxY(Ciudad.getMaxY() - 1);
-                    mensaje = "¿Cuál es la primera coordenada Y?" + Ciudad.mostrarMinMaxY();
+                    mensaje = "¿Cuál es la primera coordenada Y?" + Ciudad.mostrarMinMaxY() + ".";
 
                     coordenadaYMIN = getInt(mensaje, error, Ciudad.getMinY(), Ciudad.getMaxY());
 
@@ -86,7 +95,7 @@ public class BuscarCiudades {
                     break;
                 case 3:
                     Ciudad.setMaxY(Ciudad.getMaxY() + 1);
-                    mensaje = "¿Cuál es la segunda coordenada Y?" + Ciudad.mostrarMinMaxY();
+                    mensaje = "¿Cuál es la segunda coordenada Y?" + Ciudad.mostrarMinMaxY() + ".";
 
                     coordenadaYMAX = getInt(mensaje, error, Ciudad.getMinY(), Ciudad.getMaxY());
 

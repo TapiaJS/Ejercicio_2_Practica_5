@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.io.IOException;
 
 public class DirectorioCiudades {
     private Map<String, List<String>> estadoCiudades;
@@ -109,12 +110,13 @@ public class DirectorioCiudades {
     }
 
     public static void main(String[] args) {
-
-    DirectorioCiudades directorio = new DirectorioCiudades("ciudades.txt");
     Scanner m = new Scanner(System.in);
+    String fileName = "ciudades.txt";
+    DirectorioCiudades directorio = new DirectorioCiudades(fileName);
+    BuscarCiudades.imprimirCantidadDeCiudades(fileName);
 
     while (true) {
-        System.out.println("\nSeleccione una acción:");
+        System.out.println("Seleccione una acción:");
         System.out.println("1. Agregar ciudad");
         System.out.println("2. Eliminar ciudad");
         System.out.println("3. Ciudades en estado");
@@ -127,26 +129,22 @@ public class DirectorioCiudades {
 
         switch (opcion) {
             case 1:
-                System.out.print("Ingrese el estado: ");
+                Colors.println("¿Cuál es el nombre de la ciudad? ", Colors.HIGH_INTENSITY);
                 String estado = m.nextLine();
-                System.out.print("Ingrese la ciudad: ");
+                Colors.println("¿Cuál es el estado en el que se encuentra la ciudad? ", Colors.HIGH_INTENSITY);
                 String ciudad = m.nextLine();
 
-                boolean datosValidosrep;
-                do {
-                    try {
-                        System.out.print("Ingrese longitud: ");
-                        int equis1 = m.nextInt();
-                        System.out.print("Ingrese latitud: ");
-                        int equis3 = m.nextInt();
-                        directorio.agregarCiudad(estado, ciudad, equis1, equis3);
-                        datosValidosrep = true;
-                    } catch (InputMismatchException e) {
-                        System.out.println("Por favor, ingrese solo números para la longitud y la latitud.");
-                        m.nextLine(); // limpia el buffer del scanner
-                        datosValidosrep = false;
-                    }
-                } while (!datosValidosrep);
+                String error = Colors.HIGH_INTENSITY + "Ingresa una opción válida.";
+                String longitud = "¿Cuál es su coordenada X?";
+                String latitud = "¿Cuál es su coordenada Y?";
+                int max = Integer.MAX_VALUE;
+                int min = Integer.MIN_VALUE;
+
+                int equis1 = BuscarCiudades.getInt(longitud, error, min, max);
+
+                int equis3 = BuscarCiudades.getInt(latitud, error, min, max);
+                
+                directorio.agregarCiudad(estado, ciudad, equis1, equis3);
                 break;
 
             case 2:
@@ -166,12 +164,11 @@ public class DirectorioCiudades {
 
             case 4:
                 List<Ciudad> ciudades = new ArrayList<>();
-                String fileName = "ciudades.txt";
                 
                 try {
                     BuscarCiudades.leerArchivo(ciudades, fileName);
                 } catch (IOException e) {
-                    System.out.println("Error al leer el archivo: " + e.getMessage());
+                    Colors.println("Error al leer el archivo: " + e.getMessage(), Colors.RED);
                 }
                 
                 Ciudad.encontrarMaxMin(ciudades);
