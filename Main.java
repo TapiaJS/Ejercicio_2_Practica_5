@@ -1,10 +1,7 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Ciudad> ciudades = new ArrayList<>();
         String fileName = "ciudades.txt";
         BuscarCiudades.setFileName(fileName);
         BuscarCiudades.imprimirCantidadDeLineas("READ ");
@@ -16,7 +13,6 @@ public class Main {
         }
 
         BuscarCiudades.imprimirCiudades();
-        Ciudad.encontrarMaxMin(ciudades);
         BuscarCiudades.obtenerCoordenadas();
     }
 }

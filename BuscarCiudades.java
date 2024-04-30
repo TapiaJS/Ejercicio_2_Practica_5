@@ -19,7 +19,63 @@ public class BuscarCiudades {
         BuscarCiudades.fileName = fileName;
     }
 
-    //Métodos auxiliares
+    //Métodos para el directorio
+    public static int mostrarMenu() {
+        StringBuilder menu = new StringBuilder();
+
+        try {
+            BuscarCiudades.leerArchivo();
+        } catch (IOException e) {
+            Colors.println("Error al leer el archivo: " + e.getMessage(), Colors.RED);
+        }
+        menu.append("\nSeleccione una acción:\n");
+        menu.append("1. Agregar ciudad\n");
+        menu.append("2. Eliminar ciudad\n");
+        menu.append("3. Ciudades en estado\n");
+        menu.append("4. Ciudades en rango de coordenadas\n");
+        menu.append("5. Imprimir todas las ciudades\n");
+        menu.append("0. Salir\n");
+
+        int opcion = getInt(menu.toString(), error, 0, 5);
+        return opcion;
+    }
+
+    public static int obtenerOpcion() {
+        while (!m.hasNextInt()) {
+            m.next(); 
+            System.out.println("Opción no válida. Intente nuevamente.");
+        }
+        int opcion = m.nextInt();
+        m.nextLine(); 
+        return opcion;
+    }
+
+    public static void procesarOpcion(int opcion) {
+        switch (opcion) {
+            case 1:
+                BuscarCiudades.agregarCiudad();
+                break;
+            case 2:
+                BuscarCiudades.eliminarCiudad();
+                break;
+            case 3:
+                List<Ciudad> resultado = obtenerCiudadesEnEstado();
+                imprimirCiudadesDeLaLista(resultado);
+                break;
+            case 4:
+                BuscarCiudades.obtenerCoordenadas();
+                break;
+            case 5:
+                BuscarCiudades.imprimirCiudades();
+                break;
+            case 0:
+                Colors.println("¡Hasta luego!", Colors.BLUE);
+                System.exit(0);
+            default:
+                System.out.println("Opción no válida. Intente nuevamente.");
+        }
+    }
+
     public static int getInt(String mensaje, String error, int min, int max) {
         int val;
         while (true) {
@@ -46,6 +102,16 @@ public class BuscarCiudades {
             System.out.println(mensaje + fileName + ": " + contador);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void imprimirCiudadesDeLaLista(List<Ciudad> ciudades){
+        if (ciudades.isEmpty()) {
+            Colors.println(Colors.HIGH_INTENSITY + "Sin ciudades.", Colors.RED);
+        } else {
+            for (int i = 0; i < ciudades.size(); i++) {
+                Colors.println(Colors.HIGH_INTENSITY + (i + 1) + ". " + ciudades.get(i), Colors.CYAN);
+            }
         }
     }
 
@@ -171,21 +237,6 @@ public class BuscarCiudades {
         return ciudadesEnEstado;
     }    
 
-    public static void imprimirCiudadesDeLaLista(List<Ciudad> ciudades){
-        if (ciudades.isEmpty()) {
-            Colors.println(Colors.HIGH_INTENSITY + "Sin ciudades.", Colors.RED);
-        } else {
-            for (int i = 0; i < ciudades.size(); i++) {
-                Colors.println(Colors.HIGH_INTENSITY + (i + 1) + ". " + ciudades.get(i), Colors.CYAN);
-            }
-        }
-    }
-
-    public static void opcionTres(){
-        List<Ciudad> resultado = obtenerCiudadesEnEstado();
-        imprimirCiudadesDeLaLista(resultado);
-    }
-
     //Métodos para la opción 4 del menú
     public static void obtenerCoordenadas() {
         Ciudad.encontrarMaxMin(ciudades);
@@ -239,7 +290,7 @@ public class BuscarCiudades {
         imprimirCiudadesDeLaLista(resultado);
     }
 
-        //Método para la opción 5 del menú
+    //Método para la opción 5 del menú
     public static void imprimirCiudades() {
         if (ciudades.isEmpty()) {
             Colors.println("No hay ciudades en el archivo", Colors.RED);
