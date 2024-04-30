@@ -5,7 +5,7 @@ public class Ciudad {
     /*
      * Variables de instancia
      */
-    private String nombre;
+    private String ciudad;
     private String estado;
     private int x;
     private int y;
@@ -20,11 +20,19 @@ public class Ciudad {
     /*
      * Constructor de un objeto tipo Ciudad
      */
-    public Ciudad(String nombre, String estado, int x, int y) {
-        this.nombre = nombre;
+    public Ciudad(String ciudad, String estado, int x, int y) {
+        this.ciudad = ciudad;
         this.estado = estado;
         this.x = x;
         this.y = y;
+    }
+
+    public String getCiudad() {
+        return this.ciudad;
+    }
+
+    public String getEstado() {
+        return this.estado;
     }
 
     /*
@@ -110,7 +118,15 @@ public class Ciudad {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Ciudad other = (Ciudad) obj;
+        return ciudad.equals(other.ciudad) && estado.equals(other.estado);
+    }
+
+    @Override
     public String toString() {
-        return nombre + " " + estado + " " + x + " " + y;
+        return ciudad + " " + estado + " " + x + " " + y;
     }
 }
