@@ -1,5 +1,5 @@
-import java.util.List;
-import java.util.ArrayList;
+import estructuras.lineales.List;
+import estructuras.lineales.ArrayList;
 
 public class Ciudad {
     /*
@@ -99,7 +99,7 @@ public class Ciudad {
             boolean coincidenciaX = validarLocalizacion(ciudad.x, coordenadaXMIN, coordenadaXMAX);
             boolean coincidenciaY = validarLocalizacion(ciudad.y, coordenadaYMIN, coordenadaYMAX);
             if (coincidenciaX && coincidenciaY) {
-                ciudadesValidas.add(ciudad);
+                ciudadesValidas.add(0,ciudad);
             }
         }
         return ciudadesValidas;

@@ -1,3 +1,7 @@
+import estructuras.lineales.List;
+import estructuras.lineales.ArrayList;
+import readerwriter.ReaderWriter;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -5,9 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Scanner;
+
 
 public class BuscarCiudades {
     private static Scanner m = new Scanner(System.in);
@@ -136,7 +139,7 @@ public class BuscarCiudades {
                     }
                     
                     if (!exists) {
-                        ciudades.add(nuevaCiudad);
+                        ciudades.add(0,nuevaCiudad);
                     }
                 }
             }
@@ -169,7 +172,8 @@ public class BuscarCiudades {
     
         try {
             // Lee todas las líneas existentes del archivo
-            List<String> lineas = Files.readAllLines(path);
+
+            java.util.List<String> lineas = Files.readAllLines(path);
     
             // Agrega la nueva ciudad al inicio de la lista
             lineas.add(0, nuevaLinea);
@@ -216,7 +220,7 @@ public class BuscarCiudades {
         List<String> lineas = new ArrayList<>();
         
         for (Ciudad ciudad : ciudades) {
-            lineas.add(ciudad.toString());
+            lineas.add(0,ciudad.toString());
         }
         
         Files.write(path, lineas, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
@@ -231,7 +235,7 @@ public class BuscarCiudades {
         List<Ciudad> ciudadesEnEstado = new ArrayList<>();
         for (Ciudad ciudad : ciudades) {
             if (ciudad.getEstado().equalsIgnoreCase(estadoBuscado)) {
-                ciudadesEnEstado.add(ciudad);
+                ciudadesEnEstado.add(0,ciudad);
             }
         }
         return ciudadesEnEstado;
