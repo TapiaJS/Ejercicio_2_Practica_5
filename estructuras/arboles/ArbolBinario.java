@@ -7,7 +7,14 @@ import estructuras.lineales.ArrayList;
 
 public abstract class ArbolBinario<E> implements Iterable<E> {
 
+    /**
+     * Es la raiz del arbol.
+     */
     Node<E> root;
+
+    /**
+     * Representa el tamaño del arbol.
+     */
     int size;
 
     public ArbolBinario() {
@@ -15,7 +22,11 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
         size = 0;
     }
 
-
+    /**
+     * Devuelve la altura de este arbol.
+     *
+     * @return int - Altura actual del arbol.
+     */
     public int height() {
         if (root == null) {
             return 0;
@@ -24,17 +35,29 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
         return root.height();
     }
 
-
+    /**
+     * Devuelve el numero de elementos dentro de este arbol.
+     *
+     * @return int - Tamaño actual del arbol.
+     */
     public int size() {
         return size;
     }
 
-
+    /**
+     * Devuelve si el arbol esta vacio.
+     *
+     * @return boolean - true si el arbol esta vacio.
+     */
     public boolean isEmpty() {
         return size == 0;
     }
 
-
+    /**
+     * Devuelve el iterador que contiene el recorrido pre-orden.
+     *
+     * @return Iterator - Devuelve los elementos en pre-orden.
+     */
     public Iterator<E> getIteratorPreOrder() {
         return new IteratorPreOrder();
     }
@@ -67,8 +90,12 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
                 obj = list.remove(0);
                 if (obj instanceof Node) {
                     node = (Node<E>) obj;
-                    elem = node.elem;
+    
+                    // En PreOrder, procesamos la raíz primero, luego el izquierdo, y después el derecho
+                    elem = node.elem; // Procesamos el nodo actual
                     found = true;
+    
+                    // Agregar primero el derecho y luego el izquierdo al principio de la lista para continuar el recorrido PreOrder
                     if (node.right != null) {
                         list.add(0, node.right);
                     }
@@ -91,7 +118,11 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
         }
     }
 
-
+    /**
+     * Devuelve el iterador que contiene el recorrido post-orden.
+     *
+     * @return Iterator - Devuelve los elementos en post-orden.
+     */
     public Iterator<E> getIteratorPostOrder() {
         return new IteratorPostOrder();
     }
@@ -129,8 +160,9 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
                     visited.remove(0);
                     return node.elem;
                 } else {
-                    visited.set(0, true); 
-
+                    visited.set(0, true); // Marcar este nodo como visitado
+    
+                    // Empujar primero el hijo derecho y luego el izquierdo a la lista
                     if (node.right != null) {
                         list.add(0, node.right);
                         visited.add(0, false);
@@ -150,7 +182,11 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
             throw new UnsupportedOperationException();
         }
     }
-
+    /**
+     * Devuelve el iterador que contiene el recorrido in-orden.
+     *
+     * @return Iterator - Devuelve los elementos en in-orden.
+     */
     public Iterator<E> getIteratorInOrder() {
         return new IteratorInOrder();
     }
@@ -220,15 +256,34 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
         return sb.toString();
     }
 
-
+    /**
+     * Inserta un elemento en el arbol.
+     *
+     * @param E - Elemento a insertar.
+     */
     public abstract void add(E c);
 
-
+    /**
+     * Elimina un elemento en el arbol.
+     *
+     * @param E - Elemento a eliminar.
+     * @return boolean - true si fue capaz de eliminar el elemento dado.
+     */
     public abstract boolean remove(E c);
 
-
+    /**
+     * Busca un elemento en el arbol.
+     *
+     * @param E - Elemento a buscar.
+     * @return boolean - true si fue capaz de encontrar el elemento dado.
+     */
     public abstract boolean contains(E c);
 
+    /**
+     * Busca el elemento minimo en el arbol.
+     *
+     * @return E - Elemento minimo.
+     */
     public E min() {
         if (root == null) {
             return null;
@@ -237,7 +292,11 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
         return root.min().elem;
     }
 
-
+    /**
+     * Busca el elemento maximo en el arbol.
+     *
+     * @return E - Elemento maximo.
+     */
     public E max() {
         if (root == null) {
             return null;
@@ -252,18 +311,33 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
         public Node<E> left;
         public Node<E> right;
         public E elem;
+
+        /**
+         * Devuelve la altura de este nodo.
+         *
+         * @return int - Altura actual del nodo.
+         */
         public int height() {
             int leftHeight = (left == null) ? -1 : left.height();
             int rightHeight = (right == null) ? -1 : right.height();
+            //Se regresa al menos uno, si el nodo tiene al menos un hijo
             return 1 + Math.max(leftHeight, rightHeight);
         }
 
-
+        /**
+         * Pregunta si este nodo es una hoja.
+         *
+         * @return boolean - true si este nodo es una hoja.
+         */
         public boolean isLeaf() {
             return (left == null && right == null);
         }
 
-
+        /**
+         * Devuelve el grado de este nodo.
+         *
+         * @return int - Grado actual del nodo.
+         */
         public int getGrade() {
             int grade = 0;
             if (left != null) grade++;
@@ -271,7 +345,12 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
             return grade;
         }
 
-
+        /**
+         * Devuelve un entero que representa que hijo es el parametro..
+         *
+         * @param Node - Nodo a revisar.
+         * @return int - 0 si es el izquierdo, 1 si es el derecho y -1 si no es ninguno.
+         */
         public int getChild(Node<E> hijo) {
             if (hijo == null) {
                 return -1;
@@ -285,7 +364,11 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
             }
         }
 
-
+        /**
+         * Busca el elemento minimo en el nodo.
+         *
+         * @return Node<E> - Elemento minimo.
+         */
         public Node<E> min() {
             Node<E> current = this;
             while (current.left != null) {
@@ -294,7 +377,11 @@ public abstract class ArbolBinario<E> implements Iterable<E> {
             return current;
         }
 
-
+        /**
+         * Busca el elemento maximo en el nodo.
+         *
+         * @return Node<E> - Elemento maximo.
+         */
         public Node<E> max() {
             Node<E> current = this;
             while (current.right != null) {
