@@ -33,11 +33,9 @@ public class ReaderWriter {
         while ((line = bufferedReader.readLine()) != null) {
             arrayList.add(arrayList.size(), line);
             i++;
-    } 
-    
-    bufferedReader.close();
-    
-    System.out.println("READ " + fileName + ": " + i);
-    return (List<String>)arrayList;
+        } 
+        bufferedReader.close();
+        System.out.println("READ " + fileName + ": " + i);
+        return (List<String>)arrayList;
     }
 }

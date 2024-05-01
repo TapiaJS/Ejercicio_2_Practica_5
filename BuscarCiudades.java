@@ -2,13 +2,7 @@ import estructuras.lineales.List;
 import estructuras.lineales.ArrayList;
 import readerwriter.ReaderWriter;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 
@@ -24,13 +18,13 @@ public class BuscarCiudades {
 
     //Métodos para el directorio
     public static int mostrarMenu() {
-        StringBuilder menu = new StringBuilder();
-
         try {
-            BuscarCiudades.leerArchivo();
+            leerArchivo();
         } catch (IOException e) {
             Colors.println("Error al leer el archivo: " + e.getMessage(), Colors.RED);
         }
+
+        StringBuilder menu = new StringBuilder();
         menu.append("\nSeleccione una acción:\n");
         menu.append("1. Agregar ciudad\n");
         menu.append("2. Eliminar ciudad\n");
@@ -99,15 +93,6 @@ public class BuscarCiudades {
         }
     }
 
-    public static void imprimirCantidadDeLineas(String mensaje){
-        try {
-            long contador = Files.lines(Paths.get(fileName)).count();
-            System.out.println(mensaje + fileName + ": " + contador);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void imprimirCiudadesDeLaLista(List<Ciudad> ciudades){
         if (ciudades.isEmpty()) {
             Colors.println(Colors.HIGH_INTENSITY + "Sin ciudades.", Colors.RED);
@@ -119,28 +104,26 @@ public class BuscarCiudades {
     }
 
     public static void leerArchivo() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(" ");
-                if (parts.length >= 4) {
-                    String nombreCiudad = parts[0];
-                    String estadoCiudad = parts[1];
-                    int coordX = Integer.parseInt(parts[2]);
-                    int coordY = Integer.parseInt(parts[3]);
-                    Ciudad nuevaCiudad = new Ciudad(nombreCiudad, estadoCiudad, coordX, coordY);
+        List<String> lineas = ReaderWriter.readLines(fileName);
+        for (String linea : lineas) {
+            String[] partes = linea.split(" ");
+            if (partes.length >= 4) {
+                String nombreCiudad = partes[0];
+                String estadoCiudad = partes[1];
+                int coordX = Integer.parseInt(partes[2]);
+                int coordY = Integer.parseInt(partes[3]);
+                Ciudad nuevaCiudad = new Ciudad(nombreCiudad, estadoCiudad, coordX, coordY);
     
-                    boolean exists = false;
-                    for (Ciudad ciudad : ciudades) {
-                        if (ciudad.equals(nuevaCiudad)) {
-                            exists = true;
-                            break;
-                        }
+                boolean exists = false;
+                for (Ciudad ciudad : ciudades) {
+                    if (ciudad.equals(nuevaCiudad)) {
+                        exists = true;
+                        break;
                     }
-                    
-                    if (!exists) {
-                        ciudades.add(0,nuevaCiudad);
-                    }
+                }
+                
+                if (!exists) {
+                    ciudades.add(0,nuevaCiudad);
                 }
             }
         }
@@ -166,23 +149,10 @@ public class BuscarCiudades {
     }
 
     public static void agregarCiudadAlArchivo(String ciudad, String estado, int x, int y) {
-        Path path = Paths.get(fileName); // Ruta al archivo
-        String nuevaLinea = ciudad + " " + estado + " " + x + " " + y; // Formato de la nueva ciudad
         Ciudad nuevaCiudad = new Ciudad(ciudad, estado, x, y);
-    
         try {
-            // Lee todas las líneas existentes del archivo
-
-            java.util.List<String> lineas = Files.readAllLines(path);
-    
-            // Agrega la nueva ciudad al inicio de la lista
-            lineas.add(0, nuevaLinea);
-
             ciudades.add(0, nuevaCiudad);
-    
-            // Escribe de nuevo todas las líneas en el archivo, incluyendo la nueva ciudad al inicio
-            Files.write(path, lineas, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
-            imprimirCantidadDeLineas("WROTE ");
+            ReaderWriter.writeLines(fileName, ciudades);
         } catch (IOException e) {
             System.out.println("Ocurrió un error al escribir en el archivo: " + e.getMessage());
         }
@@ -190,11 +160,12 @@ public class BuscarCiudades {
 
     //Métodos para la opción 2 del menú
     public static void eliminarCiudad() {
-        StringBuilder menu = new StringBuilder();
         if (ciudades.isEmpty()) {
             Colors.println("No hay ciudades disponibles para eliminar.", Colors.RED);
             return;
         }
+
+        StringBuilder menu = new StringBuilder();
 
         menu.append("Selecciona una opción.\n");
         for (int i = 0; i < ciudades.size(); i++) {
@@ -209,22 +180,10 @@ public class BuscarCiudades {
         
         try {
             ciudades.remove(indiceReal);
-            actualizarArchivo();    
+            ReaderWriter.writeLines(fileName, ciudades);;    
         } catch (Exception e) {
             Colors.println("Error al eliminar la ciudad: " + e.getMessage(), Colors.RED);
         }
-    }
-    
-    private static void actualizarArchivo() throws IOException {
-        Path path = Paths.get(fileName);
-        List<String> lineas = new ArrayList<>();
-        
-        for (Ciudad ciudad : ciudades) {
-            lineas.add(0,ciudad.toString());
-        }
-        
-        Files.write(path, lineas, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
-        imprimirCantidadDeLineas("WROTE ");
     }
 
     //Método para la opción 3 del menú

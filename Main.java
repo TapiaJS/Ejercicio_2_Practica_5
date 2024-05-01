@@ -4,7 +4,6 @@ public class Main {
     public static void main(String[] args) {
         String fileName = "ciudades.txt";
         BuscarCiudades.setFileName(fileName);
-        BuscarCiudades.imprimirCantidadDeLineas("READ ");
         
         try {
             BuscarCiudades.leerArchivo();
